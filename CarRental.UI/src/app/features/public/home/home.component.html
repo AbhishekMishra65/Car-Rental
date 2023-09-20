@@ -1,0 +1,62 @@
+<div class="container my-3">
+    <div class="row">
+        <div class="col-4">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Search Car"
+                    [(ngModel)]="searchtext">
+                <label for="floatingInput">Search Car</label>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="sortDropdown"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort by Price
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                    <a class="dropdown-item" (click)="toggleSorting(true)">High to Low</a>
+                    <a class="dropdown-item" (click)="toggleSorting(false)">Low to High</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="conatiner m-4">
+    <div class="my-2" *ngIf="model; else notFound">
+        <div class="row align-items-strech">
+            <!-- <ng-container *ngIf="cars$ | async as cars"> -->
+            <div class="col-12 col-md-4 mb-3 mt-2" *ngFor="let car of model | paginate:                 {id:'listing_pagination',
+                itemsPerPage: 6,
+                currentPage:page,
+                totalItems:totalRecords}">
+                <div class="card h-100"
+                    *ngIf="searchtext==='' || car.model.toLowerCase().includes(searchtext.toLowerCase())">
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            {{car.model}}
+                        </h5>
+                        <p class="card-title">{{car.maker}}</p>
+                        <p class="badge text-bg-success">₹{{car.pricePerHour}} | Price per hour</p>
+                        <p>{{car.features}}</p>
+                        <span class="d-flex align-items-end" style="flex:1">
+                            <a [routerLink]="['/rentcar',car.vehicleId]" class="btn btn-dark">Rent Car</a>
+                            <a *ngIf="user!==undefined && user?.role?.includes('Admin')"
+                                [routerLink]="['/admin/editcar',car.vehicleId]" class="btn btn-dark ms-2">Edit Info</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pagination-controls id="listing_pagination" (pageChange)="page = $event"></pagination-controls>
+    <ng-template #notFound>
+        <div class="alert alert-warning" role="alert">
+            Cars Fetching
+        </div>
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </ng-template>
+</div>

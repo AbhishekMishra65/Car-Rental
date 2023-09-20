@@ -1,0 +1,31 @@
+<div class="container">
+    <h1 class="mt-3">All Cars Admin Panel</h1>
+
+    <div class="d-flex justify-content-end">
+        <a [routerLink]="['/admin/cars/create']" class="btn btn-primary">Add New Car</a>
+    </div>
+
+    <ng-container *ngIf="cars$ | async as cars">
+        <table class="table  mt-3 mb-5">
+            <thead>
+                <tr>
+                    <th>Maker</th>
+                    <th>Model</th>
+                    <th>Price Per Hour</th>
+                    <th>Is Available?</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let car of cars">
+                    <td>{{car.maker}}</td>
+                    <td>{{car.model}}</td>
+                    <td>{{car.pricePerHour}}</td>
+                    <td>{{car.isAvailable}}</td>
+                    <td><a class="btn btn-primary" [routerLink]="['/admin/car',car.vehicleId]">Edit</a></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+</div>

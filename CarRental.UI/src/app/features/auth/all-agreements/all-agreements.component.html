@@ -1,0 +1,31 @@
+<div class="container">
+    <ng-container *ngIf="user!==undefined">
+        <h3 class="mt-3"> Hi {{user.name}}, Your Agreements</h3>
+    </ng-container>
+
+
+    <!-- <ng-container *ngIf="agreements$ | async as agreements"> -->
+        <table class="table table-bordered mt-3 mb-5">
+            <thead>
+                <tr>
+                    <th>Vehicle Id</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Total Price</th>
+                    <th>Request Return</th>
+                    <th>Admin Return Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let agreement of agreements">
+                    <td>{{agreement.carVehicleId}}</td>
+                    <td>{{agreement.fromDate}}</td>
+                    <td>{{agreement.toDate}}</td>
+                    <td>{{agreement.totalPrice}}</td>
+                    <td>{{agreement.returnRequested}}</td>
+                    <td><button class="btn btn-primary" (click)="adminRequestReturn(agreement.agreementId,agreement)" [disabled]="!agreement.returnRequested || agreement.adminConfirmReturned">Accept Return</button></td>
+                </tr>
+            </tbody>
+        </table>
+    <!-- </ng-container> -->
+</div>

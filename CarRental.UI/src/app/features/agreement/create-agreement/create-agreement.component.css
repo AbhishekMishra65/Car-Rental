@@ -1,0 +1,14 @@
+.agreement{
+    font-family: Arial, sans-serif;
+    background-color: aliceblue;
+    padding: 2pc;
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 24px;
+}
+p {
+    font-size: 16px;
+    line-height: 1.5;
+}
