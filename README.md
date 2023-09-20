@@ -1,19 +1,19 @@
 # Project Overview
 ## Regular User Flow
-• The system displays a list of cars that match the user’s search criteria.
-• Users can select a car from the list and specify the rental duration.
-• Once the rental duration is provided, the system generates a rental agreement containing
-• Users can view all their rental agreements in the “My Rental Agreements“ tab.
-• User can edit rental agreement details before accepting it.
-• Once the user accepts the rental agreement, it cannot be edited or deleted.
-• If the user wants to return the rented car, they can mark it as “request for return 
+1 The system displays a list of cars that match the user’s search criteria.
+2 Users can select a car from the list and specify the rental duration.
+3 Once the rental duration is provided, the system generates a rental agreement containing
+4 Users can view all their rental agreements in the “My Rental Agreements“ tab.
+5 User can edit rental agreement details before accepting it.
+6 Once the user accepts the rental agreement, it cannot be edited or deleted.
+7 If the user wants to return the rented car, they can mark it as “request for return 
 
 ## Admin User Flow
-• Admin user can view all the rental agreements.
-• They have the authority to update or delete any rental agreement.
-• The admin user can validate all cars marked as “request for return” for conducting an 
+1 Admin user can view all the rental agreements.
+2 They have the authority to update or delete any rental agreement.
+3 The admin user can validate all cars marked as “request for return” for conducting an 
 inspection.
-• Once the inspection is completed, the admin can mark the car as returned.
+4 Once the inspection is completed, the admin can mark the car as returned.
 
 # How To Run This Project
 ## Running Backend
