@@ -19,6 +19,7 @@ import { CreateAgreementComponent } from './features/agreement/create-agreement/
 import { UserAgreementsComponent } from './features/agreement/user-agreements/user-agreements.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AllAgreementsComponent } from './features/auth/all-agreements/all-agreements.component';
+import { EditCarComponent } from './features/car/edit-car/edit-car.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AllAgreementsComponent } from './features/auth/all-agreements/all-agree
     HomeComponent,
     CreateAgreementComponent,
     UserAgreementsComponent,
-    AllAgreementsComponent
+    AllAgreementsComponent,
+    EditCarComponent
   ],
   imports: [
     BrowserModule,

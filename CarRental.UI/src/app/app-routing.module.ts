@@ -9,6 +9,7 @@ import { HomeComponent } from './features/public/home/home.component';
 import { CreateAgreementComponent } from './features/agreement/create-agreement/create-agreement.component';
 import { UserAgreementsComponent } from './features/agreement/user-agreements/user-agreements.component';
 import { AllAgreementsComponent } from './features/auth/all-agreements/all-agreements.component';
+import { EditCarComponent } from './features/car/edit-car/edit-car.component';
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path:'admin/cars' , component: GetallcarsAdminComponent,canActivate: [authGuard]},
   {path: 'admin/cars/create', component: CreateCarComponent,canActivate: [authGuard]},
   {path: 'admin/agreements', component: AllAgreementsComponent,canActivate: [authGuard]},
+  {path : 'admin/editcar/:vehicleId', component: EditCarComponent,canActivate: [authGuard]}
 ];
 
 @NgModule({

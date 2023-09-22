@@ -137,7 +137,7 @@ namespace CarRental.Controllers
                             ToDate = x.ToDate,
                             TotalPrice = x.TotalPrice,
                             returnRequested = x.returnRequested,
-                            adminConfirmReturned =x.adminConfirmReturned
+                            adminConfirmReturned = x.adminConfirmReturned
                         }).ToList()
                     });
                 }
@@ -183,8 +183,90 @@ namespace CarRental.Controllers
                     ToDate = x.ToDate,
                     TotalPrice = x.TotalPrice,
                     returnRequested = x.returnRequested,
-                    adminConfirmReturned =x.adminConfirmReturned
+                    adminConfirmReturned = x.adminConfirmReturned
                 }).ToList()
+            };
+
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("{vehicleId:Guid}")]
+        [HttpPut]
+        public async Task<IActionResult> EditCar([FromRoute] Guid vehicleId, CarDto request)
+        {
+            //Convert Dto to domain model
+            var car = new Car
+            {
+                VehicleId = request.VehicleId,
+                Model = request.Model,
+                Maker = request.Maker,
+                Features = request.Features,
+                isAvailable = request.isAvailable,
+                PricePerHour = request.PricePerHour,
+                Agreements = request.Agreements.Select(x => new RentalAgreement
+                {
+                    AgreementId = x.AgreementId,
+                    CarVehicleId = x.CarVehicleId,
+                    UserId = x.UserId,
+                    FromDate = x.FromDate,
+                    ToDate = x.ToDate,
+                    TotalPrice = x.TotalPrice,
+                    returnRequested = x.returnRequested,
+                    adminConfirmReturned = x.adminConfirmReturned
+                }).ToList()
+            };
+
+            var updatedCar = await carRepository.EditCarAsync(car);
+
+            if (updatedCar == null)
+            {
+                return NotFound();
+            }
+            //convert domain model back to dto
+            var response = new CarDto
+            {
+                VehicleId = updatedCar.VehicleId,
+                Model = updatedCar.Model,
+                Maker = updatedCar.Maker,
+                isAvailable = updatedCar.isAvailable,
+                PricePerHour = updatedCar.PricePerHour,
+                Features = updatedCar.Features,
+                Agreements = request.Agreements.Select(x => new RentalAgreementDto
+                {
+                    AgreementId = x.AgreementId,
+                    CarVehicleId = x.CarVehicleId,
+                    UserId = x.UserId,
+                    FromDate = x.FromDate,
+                    ToDate = x.ToDate,
+                    TotalPrice = x.TotalPrice,
+                    returnRequested = x.returnRequested,
+                    adminConfirmReturned = x.adminConfirmReturned
+                }).ToList()
+            };
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("{vehicleId:Guid}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCar([FromRoute] Guid vehicleId)
+        {
+            var deletedCar = await carRepository.DeleteCarAsync(vehicleId);
+
+            if (deletedCar == null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain model to DTO
+            var response = new CarDto
+            {
+                VehicleId = deletedCar.VehicleId,
+                    Model = deletedCar.Model,
+                    Maker = deletedCar.Maker,
+                Features = deletedCar.Features,
+                isAvailable = deletedCar.isAvailable,
             };
 
             return Ok(response);

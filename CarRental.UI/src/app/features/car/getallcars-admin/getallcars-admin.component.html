@@ -22,8 +22,7 @@
                     <td>{{car.model}}</td>
                     <td>{{car.pricePerHour}}</td>
                     <td>{{car.isAvailable}}</td>
-                    <td><a class="btn btn-primary" [routerLink]="['/admin/car',car.vehicleId]">Edit</a></td>
-
+                    <td><a class="btn btn-dark" [routerLink]="['/admin/editcar',car.vehicleId]">Edit</a></td>
                 </tr>
             </tbody>
         </table>

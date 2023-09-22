@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20230919092144_adding coloum adminConfirmReturned abhishek mishra")]
-    partial class addingcoloumadminConfirmReturnedabhishekmishra
+    [Migration("20230922073442_initial on second device")]
+    partial class initialonseconddevice
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

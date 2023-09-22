@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class changingforiengkey : Migration
+    public partial class initialonseconddevice : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,7 @@ namespace CarRental.Migrations
                     Maker = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PricePerHour = table.Column<int>(type: "int", nullable: false),
+                    Features = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isAvailable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -53,7 +54,8 @@ namespace CarRental.Migrations
                     FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
-                    returnRequested = table.Column<bool>(type: "bit", nullable: false)
+                    returnRequested = table.Column<bool>(type: "bit", nullable: false),
+                    adminConfirmReturned = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

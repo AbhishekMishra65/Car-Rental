@@ -30,5 +30,40 @@ namespace CarRental.Repositories.Implementation
         {
             return await dbContext.Cars.Include(x => x.Agreements).FirstOrDefaultAsync(x => x.VehicleId == VehicleId);
         }
+
+        public async Task<Car?> EditCarAsync(Car car)
+        {
+            var existingCar = await dbContext.Cars.Include(x => x.Agreements)
+                .FirstOrDefaultAsync(x => x.VehicleId == car.VehicleId);
+
+            if (existingCar == null)
+            {
+                return null;
+            }
+
+            // Update Car
+            dbContext.Entry(existingCar).CurrentValues.SetValues(car);
+
+            // Update Agreements
+            existingCar.Agreements = car.Agreements;
+
+            await dbContext.SaveChangesAsync();
+
+            return car;
+        }
+
+        public async Task<Car?> DeleteCarAsync(Guid VehicleId)
+        {
+            var existingCar = await dbContext.Cars.FirstOrDefaultAsync(x => x.VehicleId == VehicleId);
+
+            if (existingCar != null)
+            {
+                dbContext.Cars.Remove(existingCar);
+                await dbContext.SaveChangesAsync();
+                return existingCar;
+            }
+
+            return null;
+        }
     }
 }
