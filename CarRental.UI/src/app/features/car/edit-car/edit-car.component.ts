@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EditCar } from '../models/edit-car.model';
 import { ToastrService } from 'ngx-toastr';
 import { CarService } from '../services/car.service';
@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './edit-car.component.html',
   styleUrls: ['./edit-car.component.css']
 })
-export class EditCarComponent implements OnInit {
+export class EditCarComponent implements OnInit, OnDestroy {
   model: EditCar;
 
   vehicleId: string | null = null;
@@ -82,6 +82,7 @@ export class EditCarComponent implements OnInit {
     })
     }
   }
+
   ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
     this.updateCarSubscription?.unsubscribe();
