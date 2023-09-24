@@ -1,4 +1,4 @@
-import { Component, OnInit, numberAttribute } from '@angular/core';
+import { Component, OnDestroy, OnInit, numberAttribute } from '@angular/core';
 import { Car } from '../../car/models/car.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CarService } from '../../car/services/car.service';
@@ -13,11 +13,13 @@ import { CreateAgreementRequest } from '../models/createagreement-requestt.model
   templateUrl: './create-agreement.component.html',
   styleUrls: ['./create-agreement.component.css']
 })
-export class CreateAgreementComponent implements OnInit {
+export class CreateAgreementComponent implements OnInit, OnDestroy {
   model?: Car;
   vehicleId: string | null = null;
   routeSubscription?: Subscription;
+  createAgreementSubscription?: Subscription;
   getCarSubscription?: Subscription;
+  calculateRentSubscription?: Subscription;
   fromDate: Date = new Date();
   toDate: Date = new Date();
   expectedRentModel: ExpectedRentRequest;
@@ -53,7 +55,7 @@ export class CreateAgreementComponent implements OnInit {
     })
 
     if (this.vehicleId) {
-      this.carService.getCarById(this.vehicleId).subscribe({
+      this.getCarSubscription = this.carService.getCarById(this.vehicleId).subscribe({
         next: (response) => {
           this.model = response;
         }
@@ -63,27 +65,26 @@ export class CreateAgreementComponent implements OnInit {
 
   rentprice() {
     if (this.fromDate >= this.currentDate) {
-
       if (this.model) {
         this.expectedRentModel.pricePerHour = this.model.pricePerHour;
         this.expectedRentModel.fromDate = this.fromDate;
         this.expectedRentModel.toDate = this.toDate;
+
+        this.calculateRentSubscription = this.agreementService.calucalteRent(this.expectedRentModel).subscribe({
+          next: (response) => {
+            this.expectedRent = response;
+          }
+        })
       }
-
-      this.agreementService.calucalteRent(this.expectedRentModel).subscribe({
-        next: (response) => {
-          this.expectedRent = response;
-        }
-      })
     }
-
-    this.toastr.warning('please select correct date')
-
+    else {
+      this.toastr.warning('please select correct date')
+    }
   }
 
   onFormSubmit() {
     const email = localStorage.getItem('user-email')
-    if (this.fromDate < this.toDate) {
+    if (this.fromDate < this.toDate && this.isAccept) {
       if (email && this.vehicleId) {
         this.createAgreementModel.email = email;
         this.createAgreementModel.carVehicleId = this.vehicleId
@@ -91,7 +92,7 @@ export class CreateAgreementComponent implements OnInit {
         this.createAgreementModel.toDate = this.toDate
         // this.createAgreementModel.totalPrice= this.expectedRent
 
-        this.agreementService.createAgreement(this.createAgreementModel).subscribe({
+        this.createAgreementSubscription = this.agreementService.createAgreement(this.createAgreementModel).subscribe({
           next: (response) => {
             this.toastr.success('Agreement created successfully');
             this.router.navigateByUrl('/');
@@ -103,7 +104,14 @@ export class CreateAgreementComponent implements OnInit {
       }
     }
     else {
-      this.toastr.warning('please select correct dates');
+      this.toastr.warning('Not correct dates');
     }
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription?.unsubscribe();
+    this.calculateRentSubscription?.unsubscribe();
+    this.getCarSubscription?.unsubscribe();
+    this.createAgreementSubscription?.unsubscribe();
   }
 }

@@ -169,7 +169,10 @@ namespace CarRental.Controllers
         [HttpPut]
         [Route("AdminAcceptReturn/{AgreementId:Guid}")]
         public async Task<IActionResult> AdminEditAcceptReturn([FromRoute] Guid AgreementId, RentalAgreementDto existingAgreement)
-        {
+        { 
+            // fetch pricePerHour of a car with its VechileId
+            var car = await carRepository.GetCarByIdAsync(existingAgreement.CarVehicleId);
+
 
             // convert Dto to domain model
             var agreement = new RentalAgreement
@@ -177,8 +180,8 @@ namespace CarRental.Controllers
                 AgreementId = existingAgreement.AgreementId,
                 CarVehicleId = existingAgreement.CarVehicleId,
                 FromDate = existingAgreement.FromDate,
-                ToDate = existingAgreement.ToDate,
-                TotalPrice = existingAgreement.TotalPrice,
+                ToDate = DateTime.Now,
+                TotalPrice = RentPrice(existingAgreement.FromDate, DateTime.Now, car.PricePerHour),
                 UserId = existingAgreement.UserId,
                 returnRequested = existingAgreement.returnRequested,
                 adminConfirmReturned = true
