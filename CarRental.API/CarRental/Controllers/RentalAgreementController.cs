@@ -121,7 +121,7 @@ namespace CarRental.Controllers
         {
             TimeSpan ts = ToDate - FromDate; // calculating total hours between two date or time
             double TotalPrice = ts.TotalHours * PricePerHour;
-            return TotalPrice;
+            return Math.Round(TotalPrice, 2);
         }
 
         [Authorize]
